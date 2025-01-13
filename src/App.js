@@ -14,7 +14,7 @@ function AppContent() {
   
   return (
     <>
-      <div className="fixed inset-0 z-0">
+      <div className="fixed inset-0 z-0 touch-auto">
         <Waves 
           lineColor={isDark ? "rgba(255, 255, 255, 0.15)" : "rgba(0, 0, 0, 0.1)"} 
           backgroundColor={isDark ? "#000000" : "#ffffff"}
@@ -28,22 +28,22 @@ function AppContent() {
 
       <NavBarDemo />
 
-      <main className="relative z-10 min-h-screen">
+      <main className="relative z-10 min-h-screen overflow-x-hidden touch-auto overscroll-y-none">
         <section id="home">
           <HeroScrollDemo />
         </section>
-        <section id="people" className="py-12">
-          <div className="container mx-auto px-4">
-            <h2 className="text-3xl font-bold text-center mb-8 text-gray-900 dark:text-white">
+        <section id="people" className="py-8 md:py-12">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 className="text-2xl md:text-3xl font-bold text-center mb-6 md:mb-8 text-gray-900 dark:text-white">
               Who We Are
             </h2>
             <AnimatedTestimonialsDemo />
           </div>
         </section>
-        <section id="tech" className="py-12">
+        <section id="tech" className="py-8 md:py-12">
           <InfiniteSliderDemo />
         </section>
-        <section id="projects" className="py-12">
+        <section id="projects" className="py-8 md:py-12">
           <OrbitingCirclesDemo />
         </section>
         <StackedCircularFooter />

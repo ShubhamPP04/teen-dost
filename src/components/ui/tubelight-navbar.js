@@ -59,20 +59,20 @@ export function NavBar({ className }) {
   ]
 
   return (
-    <nav className={cn("fixed bottom-4 md:top-4 left-1/2 -translate-x-1/2 z-[100]", className)}>
-      <div className="relative flex items-center gap-4 px-4 py-2 rounded-full border border-gray-200 dark:border-gray-800 bg-white/75 dark:bg-black/75 backdrop-blur-md">
+    <nav className={cn("fixed bottom-4 md:top-4 left-1/2 -translate-x-1/2 z-[100] w-[90%] md:w-auto", className)}>
+      <div className="relative flex items-center justify-between md:justify-start gap-2 md:gap-4 px-3 md:px-4 py-2 rounded-full border border-gray-200 dark:border-gray-800 bg-white/75 dark:bg-black/75 backdrop-blur-md">
         {items.map((item) => (
           <a
             key={item.name}
             href={item.href}
             className={cn(
-              "relative px-3 py-2 text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors",
+              "relative px-2 md:px-3 py-2 text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors flex items-center justify-center",
               active === item.id && "text-gray-900 dark:text-white"
             )}
             onClick={() => setActive(item.id)}
           >
             <span className="relative z-10 block md:hidden">
-              <item.icon size={20} />
+              <item.icon size={24} />
             </span>
             <span className="relative z-10 hidden md:block">{item.name}</span>
             {active === item.id && (
