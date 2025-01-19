@@ -15,9 +15,7 @@ export function MusicPlayer() {
   useEffect(() => {
     const checkAudioFile = async () => {
       try {
-        // Using a CDN URL for the audio file
-        const audioUrl = 'https://res.cloudinary.com/demo/video/upload/v1710817944/Aaye_Haaye.m4a';
-        const response = await fetch(audioUrl);
+        const response = await fetch('Aaye_Haaye.m4a');
         if (!response.ok) {
           throw new Error('Audio file not found');
         }
@@ -139,8 +137,33 @@ export function MusicPlayer() {
   };
 
   if (error) {
-    console.error('Audio player error - hiding player');
-    return null;
+    return (
+      <div 
+        className="fixed top-4 left-4 z-[100]"
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+      >
+        <motion.div 
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="relative z-10 bg-white/80 dark:bg-black/80 backdrop-blur-md rounded-full px-4 py-2 border border-red-200 dark:border-red-800 shadow-lg"
+        >
+          <div className="flex items-center gap-3">
+            <div className="text-sm font-medium text-red-600 dark:text-red-400">
+              Error loading audio
+            </div>
+            <button
+              onClick={() => window.location.reload()}
+              className="h-8 w-8 flex items-center justify-center rounded-full bg-red-100 hover:bg-red-200 dark:bg-red-800 dark:hover:bg-red-700 transition-colors"
+            >
+              <svg className="h-4 w-4 text-red-600 dark:text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+              </svg>
+            </button>
+          </div>
+        </motion.div>
+      </div>
+    );
   }
 
   return (
@@ -159,8 +182,8 @@ export function MusicPlayer() {
           preload="auto"
           loop
         >
-          <source src="https://res.cloudinary.com/demo/video/upload/v1710817944/Aaye_Haaye.m4a" type="audio/m4a" />
-          <source src="https://res.cloudinary.com/demo/video/upload/v1710817944/Aaye_Haaye.m4a" type="audio/mp4" />
+          <source src="Aaye_Haaye.m4a" type="audio/m4a" />
+          <source src="Aaye_Haaye.m4a" type="audio/mp4" />
         </audio>
         <div className="flex items-center gap-3">
           <div className="text-sm font-medium text-gray-700 dark:text-gray-300 hidden sm:block">
