@@ -8,6 +8,7 @@ import { StackedCircularFooter } from './components/ui/stacked-circular-footer';
 import { OrbitingCirclesDemo } from './components/ui/orbiting-circles.demo';
 import { InfiniteSliderDemo } from './components/ui/infinite-slider.demo';
 import { NavBarDemo } from './components/ui/tubelight-navbar.demo';
+import { MusicPlayer } from './components/ui/music-player';
 
 function AppContent() {
   const { isDark } = useTheme();
@@ -25,6 +26,8 @@ function AppContent() {
       <div className="fixed top-4 right-4 z-[100]">
         <ThemeToggle />
       </div>
+
+      <MusicPlayer />
 
       <NavBarDemo />
 
