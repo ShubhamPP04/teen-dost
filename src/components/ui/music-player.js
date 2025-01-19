@@ -13,19 +13,20 @@ export function MusicPlayer() {
   const audioRef = useRef(null);
 
   useEffect(() => {
-    // Check if file exists
-    fetch('/Aaye_Haaye.m4a')
-      .then(response => {
+    const checkAudioFile = async () => {
+      try {
+        const response = await fetch('Aaye_Haaye.m4a');
         if (!response.ok) {
           throw new Error('Audio file not found');
         }
         console.log('Audio file exists:', response.status);
-        return response;
-      })
-      .catch(error => {
+      } catch (error) {
         console.error('Error checking audio file:', error);
         setError(true);
-      });
+      }
+    };
+
+    checkAudioFile();
 
     if (audioRef.current) {
       const audio = audioRef.current;
@@ -46,6 +47,7 @@ export function MusicPlayer() {
         console.log('Audio ready state:', audio.readyState);
         console.log('Audio source:', audio.currentSrc);
         setAudioLoaded(true);
+        setError(false); // Reset error state if audio loads successfully
       };
 
       const handleTimeUpdate = () => {
@@ -56,21 +58,12 @@ export function MusicPlayer() {
         console.log('Audio can play');
         console.log('Audio source:', audio.currentSrc);
         setAudioLoaded(true);
-      };
-
-      const handleLoadStart = () => {
-        console.log('Audio load started');
-      };
-
-      const handleProgress = () => {
-        console.log('Audio loading progress');
+        setError(false); // Reset error state if audio becomes playable
       };
 
       audio.addEventListener('error', handleError);
       audio.addEventListener('loadeddata', handleLoadedData);
       audio.addEventListener('canplay', handleCanPlay);
-      audio.addEventListener('loadstart', handleLoadStart);
-      audio.addEventListener('progress', handleProgress);
       audio.addEventListener('timeupdate', handleTimeUpdate);
 
       // Try to load the audio file
@@ -80,8 +73,6 @@ export function MusicPlayer() {
         audio.removeEventListener('error', handleError);
         audio.removeEventListener('loadeddata', handleLoadedData);
         audio.removeEventListener('canplay', handleCanPlay);
-        audio.removeEventListener('loadstart', handleLoadStart);
-        audio.removeEventListener('progress', handleProgress);
         audio.removeEventListener('timeupdate', handleTimeUpdate);
       };
     }
@@ -136,20 +127,25 @@ export function MusicPlayer() {
   };
 
   if (error) {
-    console.error('Audio player error - hiding player');
-    return null;
+    return (
+      <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-[100] bg-red-50 dark:bg-red-900/50 backdrop-blur-md rounded-full px-4 py-2 border border-red-200 dark:border-red-800">
+        <div className="text-sm text-red-600 dark:text-red-400">
+          Error loading audio file
+        </div>
+      </div>
+    );
   }
 
   return (
     <div 
-      className="fixed top-4 left-4 z-[100]"
+      className="fixed bottom-4 left-1/2 -translate-x-1/2 z-[100]"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
       <motion.div 
-        initial={{ opacity: 0, y: -20 }}
+        initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="bg-white/80 dark:bg-black/80 backdrop-blur-md rounded-full px-4 py-2 border border-gray-200 dark:border-gray-800 shadow-lg"
+        className="relative z-10 bg-white/80 dark:bg-black/80 backdrop-blur-md rounded-full px-4 py-2 border border-gray-200 dark:border-gray-800 shadow-lg"
       >
         <audio
           ref={audioRef}
@@ -160,8 +156,8 @@ export function MusicPlayer() {
           <source src="Aaye_Haaye.m4a" type="audio/mp4" />
         </audio>
         <div className="flex items-center gap-3">
-          <div className="text-sm font-medium text-gray-700 dark:text-gray-300 hidden sm:block">
-            {error ? 'Error loading' : audioLoaded ? 'Aaye Haaye' : 'Loading...'}
+          <div className="text-sm font-medium text-gray-700 dark:text-gray-300 hidden sm:block min-w-[80px]">
+            {audioLoaded ? 'Aaye Haaye' : 'Loading...'}
           </div>
           <button
             onClick={togglePlay}
@@ -214,11 +210,12 @@ export function MusicPlayer() {
       <AnimatePresence>
         {isHovered && (
           <motion.div
-            initial={{ opacity: 0, y: -10, scale: 0.9 }}
+            initial={{ opacity: 0, y: 10, scale: 0.9 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: -10, scale: 0.9 }}
+            exit={{ opacity: 0, y: 10, scale: 0.9 }}
             transition={{ type: "spring", stiffness: 300, damping: 30 }}
-            className="absolute top-full left-0 mt-2 w-48 aspect-square bg-white/80 dark:bg-black/80 backdrop-blur-md rounded-2xl p-3 border border-gray-200 dark:border-gray-800 shadow-xl"
+            className="absolute bottom-full left-0 mb-2 w-48 aspect-square bg-white/80 dark:bg-black/80 backdrop-blur-md rounded-2xl p-3 border border-gray-200 dark:border-gray-800 shadow-xl pointer-events-none"
+            style={{ transform: 'translate3d(0, 0, 0)' }}
           >
             <div className="w-full h-full rounded-xl overflow-hidden bg-gradient-to-br from-blue-500 to-purple-600">
               <motion.div
@@ -227,13 +224,13 @@ export function MusicPlayer() {
                 transition={{ duration: 2, repeat: Infinity, repeatType: "reverse" }}
                 className="w-full h-full bg-cover bg-center"
                 style={{
-                  backgroundImage: `url('/Aaye_Haaye_cover.jpg')`,
+                  backgroundImage: `url('Aaye_Haaye_cover.jpg')`,
                   backgroundSize: 'cover',
                   backgroundPosition: 'center'
                 }}
               />
             </div>
-            <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent rounded-2xl pointer-events-none" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent rounded-2xl" />
           </motion.div>
         )}
       </AnimatePresence>
