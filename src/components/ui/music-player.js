@@ -138,12 +138,12 @@ export function MusicPlayer() {
 
   if (error) {
     return (
-      <div 
+      <div
         className="fixed top-4 left-4 z-[100]"
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           className="relative z-10 bg-white/80 dark:bg-black/80 backdrop-blur-md rounded-full px-4 py-2 border border-red-200 dark:border-red-800 shadow-lg"
@@ -167,12 +167,12 @@ export function MusicPlayer() {
   }
 
   return (
-    <div 
+    <div
       className="fixed top-4 left-4 z-[100]"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <motion.div 
+      <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         className="relative z-10 bg-white/80 dark:bg-black/80 backdrop-blur-md rounded-full px-4 py-2 border border-gray-200 dark:border-gray-800 shadow-lg"
@@ -193,10 +193,11 @@ export function MusicPlayer() {
             onClick={togglePlay}
             disabled={!audioLoaded}
             className={`h-8 w-8 flex items-center justify-center rounded-full transition-colors ${
-              audioLoaded 
-                ? 'bg-blue-500 hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700' 
+              audioLoaded
+                ? 'bg-blue-500 hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700'
                 : 'bg-gray-400 cursor-not-allowed'
             }`}
+            aria-label={isPlaying ? 'Pause' : 'Play'}
           >
             {isPlaying ? (
               <Pause className="h-4 w-4 text-white" />
@@ -213,6 +214,7 @@ export function MusicPlayer() {
               onChange={handleSeek}
               disabled={!audioLoaded}
               className="w-full h-1 bg-gray-200 dark:bg-gray-700 rounded-full appearance-none cursor-pointer disabled:cursor-not-allowed disabled:opacity-50 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-2 [&::-webkit-slider-thumb]:h-2 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-blue-500 dark:[&::-webkit-slider-thumb]:bg-blue-400"
+              aria-label="Seek"
             />
             <div className="flex justify-between text-xs text-gray-500 dark:text-gray-400">
               <span>{formatTime(currentTime)}</span>
@@ -227,6 +229,7 @@ export function MusicPlayer() {
                 ? 'bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700'
                 : 'bg-gray-400 cursor-not-allowed'
             }`}
+            aria-label={isMuted ? 'Unmute' : 'Mute'}
           >
             {isMuted ? (
               <VolumeX className="h-4 w-4 text-gray-600 dark:text-gray-300" />
@@ -236,7 +239,7 @@ export function MusicPlayer() {
           </button>
         </div>
       </motion.div>
-      
+
       <AnimatePresence>
         {isHovered && (
           <motion.div
@@ -258,6 +261,7 @@ export function MusicPlayer() {
                   backgroundSize: 'cover',
                   backgroundPosition: 'center'
                 }}
+                aria-label="Album Cover"
               />
             </div>
             <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent rounded-2xl" />
@@ -266,4 +270,4 @@ export function MusicPlayer() {
       </AnimatePresence>
     </div>
   );
-} 
+}
